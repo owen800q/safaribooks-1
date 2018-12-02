@@ -26,7 +26,11 @@ The program depends of only two **Python 3** modules:
 lxml>=4.1.1
 requests>=2.18.4
 ```
-  
+If using docker, the image needs to be built:
+```shell
+$ docker build -f Dockerfile . --tag safaribooks:latest
+```  
+
 ## Usage:
 It's really simple to use, just choose a book from the library and replace in the following command:
   * X-es with its ID, 
@@ -39,6 +43,15 @@ $ python3 safaribooks.py --cred "account_mail@mail.com:password01" XXXXXXXXXXXXX
 The ID is the digits that you find in the URL of the book description page:  
 `https://www.safaribooksonline.com/library/view/book-name/XXXXXXXXXXXXX/`  
 Like: `https://www.safaribooksonline.com/library/view/test-driven-development-with/9781491958698/`  
+
+If using the docker image, you can also specify to create a kindle compatible
+ebook output format adding the '--kindle' flag.
+ Those will be copied to the folder you specify as ```-v /Books:/app/converted```.
+ **NOTE:** If using a linux distribution with selinux, don't forget to add :Z to the volume flag as ```-v /Books:/app/converted:Z```
+ As an example:
+ ```shell
+$ docker run -it --rm -e EMAIL='your@email' -e PASSWORD='yourpassword' -e BOOKID='XXXXXXXXX' -v /home/myself/mybooks:/app/converted:Z safaribook:latest --kindle
+```
   
 #### Program options:
 ```shell
